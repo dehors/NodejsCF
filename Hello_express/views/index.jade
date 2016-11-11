@@ -1,3 +1,7 @@
+extends ./Layout/master.jade
+block contenido
+	h1 Bienvenido a FotoFacilito
+	a(href="/login") Login
 //- html
 //-   head
 //-     title!= title
@@ -14,9 +18,10 @@
 //-           p Hello #{array[i]+1}
 //-           p.
 //-             Hello click on this #[a(href="facebook.com") link] please
-html
-	head
-		title My first page with express
-	body
-		form(action="/", method="POST")
-			input(type="submit",value="Enviar")
+
+//- html
+//- 	head
+//- 		title My first page with express
+//- 	body
+//- 		form(action="/", method="POST")
+//- 			input(type="submit",value="Enviar")
