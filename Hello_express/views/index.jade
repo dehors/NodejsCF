@@ -1,16 +1,22 @@
+//- html
+//-   head
+//-     title!= title
+//-   body
+//-     // this is a comment
+//-     h1!= message
+//-     -var array = [1,2,3,4,5];
+//-     if true
+		
+//-       -if(true)
+//-         -for (var i = array.length - 1; i >= 0; i--)
+//-           p= array[i]
+//-           p!= "<h1>"+array[i]+"</h1>"
+//-           p Hello #{array[i]+1}
+//-           p.
+//-             Hello click on this #[a(href="facebook.com") link] please
 html
-  head
-    title!= title
-  body
-    // this is a comment
-    h1!= message
-    -var array = [1,2,3,4,5];
-    if true
-    
-      -if(true)
-        -for (var i = array.length - 1; i >= 0; i--)
-          p= array[i]
-          p!= "<h1>"+array[i]+"</h1>"
-          p Hello #{array[i]+1}
-          p.
-            Hello click on this #[a(href="facebook.com") link] please
+	head
+		title My first page with express
+	body
+		form(action="/", method="POST")
+			input(type="submit",value="Enviar")

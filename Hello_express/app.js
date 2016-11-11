@@ -9,4 +9,12 @@ app.get("/",function(req,res){
   res.render("index",{title: 'My first page with express',message:'Hello world'});
 });
 
+app.get("/:var",function(req,res){
+  res.render("form",{name:req.params.var});
+});
+
+app.post("/",function(req,res) {
+  res.render("form");
+});
+
 app.listen(3000);
