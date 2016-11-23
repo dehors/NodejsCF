@@ -1,6 +1,20 @@
 var express = require("express");
 var bodyParse = require("body-parser");
 
+//--DB
+var mongoose = require("mongoose");
+var Schema = mongoose.Schema;
+mongoose.connect('mongodb://localhost/SocialPicture');
+
+var userSchemaJSON = {
+  email:String,
+  password:String
+}
+var user_schema = new Schema(userSchemaJSON);
+
+var User = mongoose.model("User",user_schema);
+
+//--
 var app = express();
 
 app.use('/static',express.static('public'));
@@ -28,12 +42,17 @@ app.get("/",function(req,res){
 });
 
 app.get("/login",function(req,res){
+User.find(function(err,doc){
+  console.log(doc);
+});
   res.render("Partial/login");
 });
 
 app.post("/users",function(req,res){
-  console.log(req.body.password);
-  res.send('se recibio el dato');
+  var user = new User({email:req.body.email,password:req.body.password});
+  user.save(function(){
+    res.send('Usuario creado');
+  });
 });
 
 app.listen(3000);
