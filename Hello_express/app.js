@@ -1,18 +1,7 @@
 var express = require("express");
 var bodyParse = require("body-parser");
 
-//--DB
-var mongoose = require("mongoose");
-var Schema = mongoose.Schema;
-mongoose.connect('mongodb://localhost/SocialPicture');
-
-var userSchemaJSON = {
-  email:String,
-  password:String
-}
-var user_schema = new Schema(userSchemaJSON);
-
-var User = mongoose.model("User",user_schema);
+var User = require('./model/user.js').User;
 
 //--
 var app = express();
