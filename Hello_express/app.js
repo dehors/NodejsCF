@@ -1,6 +1,6 @@
 var express = require("express");
 var bodyParse = require("body-parser");
-
+var session = require("express-session");
 var User = require('./model/user.js').User;
 
 //--
@@ -10,6 +10,11 @@ app.use('/static',express.static('public'));
 
 app.use(bodyParse.json());//para peticiones json
 app.use(bodyParse.urlencoded({extended: true}));
+app.use(session({
+  secret: 'asdfjklñ',
+  resave: false,
+  saveUninitialized: false
+}));
 
 app.set('view engine', 'jade');
 app.set('views', './views');
@@ -27,6 +32,7 @@ app.set('views', './views');
 // });
 
 app.get("/",function(req,res){
+  console.log(req.session.user_id);
   res.render("index");
 });
 
@@ -43,8 +49,9 @@ app.get("/login",function(req,res){
 
 
 app.post("/session",function(req,res){
-  User.findOne({email:req.body.email,password:req.body.password},"username email",function (err,docs) {
+  User.findOne({email:req.body.email,password:req.body.password},"username email",function (err,user) {
     console.log('success');
+    req.session.user_id = user._id;
     res.send('success');
   });
 });
