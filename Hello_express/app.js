@@ -39,7 +39,7 @@ User.find(function(err,doc){
 
 app.post("/users",function(req,res){
   var user = new User({email:req.body.email,password:req.body.password,password_confirmation: req.body.password_confirmation,username:req.body.username});
-  user.save(function(err){
+  user.save(function(err,doc,num){
     if(err){
       console.log(String(err));
       res.send('Errorer');
@@ -47,6 +47,12 @@ app.post("/users",function(req,res){
       res.send('Usuario creado'); 
     }
   });
+  // user.save().then(function (user) {
+  //   res.send('Usuario creado'); 
+  // },function (err) {
+  //   console.log(String(err));
+  //   res.send('Errorer');
+  // });
 });
 
 app.listen(3000);
