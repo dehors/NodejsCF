@@ -30,11 +30,23 @@ app.get("/",function(req,res){
   res.render("index");
 });
 
-app.get("/login",function(req,res){
+app.get("/singup",function(req,res){
 User.find(function(err,doc){
   console.log(doc);
 });
-  res.render("Partial/login");
+  res.render("singup");
+});
+
+app.get("/login",function(req,res){
+  res.render("login");
+});
+
+
+app.post("/session",function(req,res){
+  User.findOne({email:req.body.email,password:req.body.password},"username email",function (err,docs) {
+    console.log('success');
+    res.send('success');
+  });
 });
 
 app.post("/users",function(req,res){
