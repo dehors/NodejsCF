@@ -3,6 +3,7 @@ var bodyParse = require("body-parser");
 var session = require("express-session");
 var User = require('./model/user.js').User;
 var router_app = require('./router_app');
+var session_middleware = require("./middlewares/session");
 
 //--
 var app = express();
@@ -74,6 +75,7 @@ app.post("/users",function(req,res){
   // });
 });
 
+app.use("/app",session_middleware);
 app.use("/app",router_app);
 
 app.listen(3000);
