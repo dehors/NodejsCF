@@ -53,7 +53,7 @@ app.post("/session",function(req,res){
   User.findOne({email:req.body.email,password:req.body.password},"username email",function (err,user) {
     console.log('success');
     req.session.user_id = user._id;
-    res.send('success');
+    res.redirect('/app');
   });
 });
 
