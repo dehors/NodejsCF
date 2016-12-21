@@ -2,6 +2,7 @@ var express = require("express");
 var bodyParse = require("body-parser");
 var session = require("express-session");
 var User = require('./model/user.js').User;
+var router_app = require('./router_app');
 
 //--
 var app = express();
@@ -47,7 +48,6 @@ app.get("/login",function(req,res){
   res.render("login");
 });
 
-
 app.post("/session",function(req,res){
   User.findOne({email:req.body.email,password:req.body.password},"username email",function (err,user) {
     console.log('success');
@@ -63,7 +63,7 @@ app.post("/users",function(req,res){
       console.log(String(err));
       res.send('Errorer');
     }else{
-      res.send('Usuario creado'); 
+      res.send('Usuario creado');
     }
   });
   // user.save().then(function (user) {
@@ -73,5 +73,7 @@ app.post("/users",function(req,res){
   //   res.send('Errorer');
   // });
 });
+
+app.use("/app",router_app);
 
 app.listen(3000);
