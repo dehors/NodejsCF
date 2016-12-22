@@ -1,6 +1,6 @@
 var express = require("express");
 var bodyParse = require("body-parser");
-var session = require("express-session");
+var cookieSession = require("cookie-session");
 var User = require('./model/user.js').User;
 var Image = require('./model/image.js').Image;
 var router_app = require('./router_app');
@@ -13,10 +13,9 @@ app.use('/static',express.static('public'));
 
 app.use(bodyParse.json());//para peticiones json
 app.use(bodyParse.urlencoded({extended: true}));
-app.use(session({
-  secret: 'asdfjklñ',
-  resave: false,
-  saveUninitialized: false
+app.use(cookieSession({
+  name: "session",
+  keys: ["llave-1","llave-2"]
 }));
 
 app.set('view engine', 'jade');
