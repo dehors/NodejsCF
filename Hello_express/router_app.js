@@ -6,15 +6,14 @@ router.get("/", function(req,res) {
     res.render("app/home");
 });
 
-/* MIDDLEWARE */
-var imafge_finder_middleware = require("./middlewares/findImage");
-router.all("/images/:id*",imafge_finder_middleware);
-
 /* REST */
-
 router.get("/images/new", function(req,res) {
     res.render("app/images/new");
 });
+
+/* MIDDLEWARE */
+var image_finder_middleware = require("./middlewares/findImage");
+router.all("/images/:id*",image_finder_middleware);
 
 router.get("/images/:id/edit", function(req,res) {
     res.render("app/images/edit");
@@ -22,14 +21,15 @@ router.get("/images/:id/edit", function(req,res) {
 
 router.route("/images")
     .get(function(req,res) {
-        Image.find({},function(err,imagenes){
+        Image.find({creator: res.locals.user._id},function(err,imagenes){
             if(err){ res.redirect("/app"); return; }
             res.render("app/images/index",{imagenes: imagenes});
         });
     })
     .post(function(req,res) {
         var data = {
-            title: req.body.title
+            title: req.body.title,
+            creator: res.locals.user._id
         }
         var image = new Image(data);
         image.save(function(err,doc,num){
@@ -44,13 +44,13 @@ router.route("/images")
 
 router.route("/images/:id")
     .get(function(req,res) {
-        res.render("app/images/show");
+        res.render("app/images/show",{imagen: res.locals.imagen});
     })
     .put(function(req,res) {
         res.locals.imagen.title = req.body.title;
         res.locals.imagen.save(function(err){
             if(!err){
-                res.render("app/images/show");
+                res.render("app/images/show",{imagen: res.locals.imagen});
             }else{
                 res.render("app/images/"+req.params.id+"/edit");
             }
