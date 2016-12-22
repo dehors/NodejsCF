@@ -14,7 +14,9 @@ router.get("/images/new", function(req,res) {
 });
 
 router.get("/images/:id/edit", function(req,res) {
-    
+    Image.findById(req.params.id, function(err, imagen){
+        res.render("app/images/edit",{imagen:imagen});
+    });
 });
 
 router.route("/images")
@@ -46,7 +48,16 @@ router.route("/images/:id")
         });
     })
     .put(function(req,res) {
-        
+        Image.findById(req.params.id, function(err, imagen){
+           imagen.title = req.body.title;
+           imagen.save(function(err){
+               if(!err){
+                   res.render("app/images/show",{imagen:imagen});
+               }else{
+                   res.render("app/images/"+imagen._id+"/edit");
+               }
+           });         
+        });
     })
     .delete(function(req,res) {
         

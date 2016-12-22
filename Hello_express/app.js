@@ -6,6 +6,8 @@ var Image = require('./model/image.js').Image;
 var router_app = require('./router_app');
 var session_middleware = require("./middlewares/session");
 
+var methodOverride = require("method-override");
+
 //--
 var app = express();
 
@@ -20,6 +22,9 @@ app.use(cookieSession({
 
 app.set('view engine', 'jade');
 app.set('views', './views');
+
+
+app.use(methodOverride("_method"));
 
 // app.get("/",function(req,res){
 //   res.render("index",{title: 'My first page with express',message:'Hello world'});

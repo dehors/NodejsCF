@@ -1,0 +1,12 @@
+extends ../../Layout/master.jade
+block contenido
+    h1 Edit image
+    form(action="/app/images/#{imagen._id}?_method=PUT",method="POST")
+        div
+            label(for="title") Title &nbsp;
+            input(type="text", name="title", placeholder="titulo de la imagen...", id="title" value="#{imagen.title}")
+        div
+            label(for="file") File &nbsp;
+            input(type="file", name="file", placeholder="file", id="file")
+        div
+            input(type="submit" value="Send")
