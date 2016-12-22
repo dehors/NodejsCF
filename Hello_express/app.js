@@ -2,6 +2,7 @@ var express = require("express");
 var bodyParse = require("body-parser");
 var session = require("express-session");
 var User = require('./model/user.js').User;
+var Image = require('./model/image.js').Image;
 var router_app = require('./router_app');
 var session_middleware = require("./middlewares/session");
 

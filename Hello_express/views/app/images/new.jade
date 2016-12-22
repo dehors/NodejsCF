@@ -1,7 +1,7 @@
 extends ../../Layout/master.jade
 block contenido
     h1 Subir imagen
-    form(action="/images",method="POST")
+    form(action="/app/images",method="POST")
         div
             label(for="title") Title &nbsp;
             input(type="text", name="title", placeholder="titulo de la imagen...", id="title")
