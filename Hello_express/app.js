@@ -43,7 +43,15 @@ app.use(methodOverride("_method"));
 
 app.get("/",function(req,res){
   console.log(req.session.user_id);
-  res.render("index");
+  Image.find({})
+    .populate("creator")
+    .exec(function(err,imagenes){
+      if(err){
+        console.log(err);
+      }else{
+       res.render("index",{imagenes: imagenes}); 
+      }
+    });
 });
 
 app.get("/singup",function(req,res){
