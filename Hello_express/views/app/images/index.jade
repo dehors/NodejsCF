@@ -2,8 +2,10 @@ extends ../../Layout/master.jade
 block contenido
     for  imagen in imagenes
         h2=imagen.title
-            &nbsp;
-            a(href="/app/images/#{imagen._id}/edit") Edit
-            &nbsp;
-            form(action="/app/images/#{imagen._id}?_method=DELETE" method="POST")
-                input(type="submit" value="Delete")
+        if(imagen.extension)
+            img(src="/static/image/#{imagen._id}.#{imagen.extension}" style="max-width:100%;height: 70px;width: 100px;")
+        &nbsp;
+        a(href="/app/images/#{imagen._id}/edit") Edit
+        &nbsp;
+        form(action="/app/images/#{imagen._id}?_method=DELETE" method="POST")
+            input(type="submit" value="Delete")
