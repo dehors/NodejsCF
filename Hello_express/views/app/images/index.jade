@@ -1,0 +1,8 @@
+extends ../../Layout/master.jade
+block contenido
+    for  imagen in imagenes
+        h2=imagen.title
+            &nbsp;
+            a(href="/app/images/#{imagen._id}/edit") Edit
+            &nbsp;
+            a(href="/app/images/#{imagen._id}/delete") Delete

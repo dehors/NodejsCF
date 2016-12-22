@@ -19,7 +19,10 @@ router.get("/images/:id/edit", function(req,res) {
 
 router.route("/images")
     .get(function(req,res) {
-        
+        Image.find({},function(err,imagenes){
+            if(err){ res.redirect("/app"); return; }
+            res.render("app/images/index",{imagenes: imagenes});
+        });
     })
     .post(function(req,res) {
         var data = {
