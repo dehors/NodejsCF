@@ -1,6 +1,7 @@
 var express = require("express");
 var Image = require('./model/image.js').Image;
 var router = express.Router();
+var fs = require("fs");
 
 router.get("/", function(req,res) {
     res.render("app/home");
@@ -27,9 +28,13 @@ router.route("/images")
         });
     })
     .post(function(req,res) {
+        console.log(req.files.file.name.split(".").pop());
+        var ext = req.files.file.name.split(".").pop();
+        console.log(ext);
         var data = {
-            title: req.body.title,
-            creator: res.locals.user._id
+            title: req.fields.title,
+            creator: res.locals.user._id,
+            extension: ext
         }
         var image = new Image(data);
         image.save(function(err,doc,num){
@@ -37,6 +42,7 @@ router.route("/images")
                 console.log(String(err));
                 res.send('Errorer');
             }else{
+                fs.rename(req.files.file.path, "public/image/"+image._id+"."+ext);
                 res.redirect('/app/images/'+image._id);
             }
         });
@@ -47,7 +53,7 @@ router.route("/images/:id")
         res.render("app/images/show",{imagen: res.locals.imagen});
     })
     .put(function(req,res) {
-        res.locals.imagen.title = req.body.title;
+        res.locals.imagen.title = req.fields.title;
         res.locals.imagen.save(function(err){
             if(!err){
                 res.render("app/images/show",{imagen: res.locals.imagen});

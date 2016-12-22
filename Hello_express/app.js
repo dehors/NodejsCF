@@ -1,10 +1,11 @@
 var express = require("express");
-var bodyParse = require("body-parser");
+// var bodyParse = require("body-parser");
 var cookieSession = require("cookie-session");
 var User = require('./model/user.js').User;
 var Image = require('./model/image.js').Image;
 var router_app = require('./router_app');
 var session_middleware = require("./middlewares/session");
+var formidable = require('express-formidable');
 
 var methodOverride = require("method-override");
 
@@ -13,12 +14,14 @@ var app = express();
 
 app.use('/static',express.static('public'));
 
-app.use(bodyParse.json());//para peticiones json
-app.use(bodyParse.urlencoded({extended: true}));
+// app.use(bodyParse.json());//para peticiones json
+// app.use(bodyParse.urlencoded({extended: true}));
 app.use(cookieSession({
   name: "session",
   keys: ["llave-1","llave-2"]
 }));
+
+app.use(formidable({keepExtensions: true}));
 
 app.set('view engine', 'jade');
 app.set('views', './views');
@@ -55,7 +58,7 @@ app.get("/login",function(req,res){
 });
 
 app.post("/session",function(req,res){
-  User.findOne({email:req.body.email,password:req.body.password},"username email",function (err,user) {
+  User.findOne({email:req.fields.email,password:req.fields.password},"username email",function (err,user) {
     console.log('success');
     req.session.user_id = user._id;
     res.redirect('/app');
@@ -63,7 +66,7 @@ app.post("/session",function(req,res){
 });
 
 app.post("/users",function(req,res){
-  var user = new User({email:req.body.email,password:req.body.password,password_confirmation: req.body.password_confirmation,username:req.body.username});
+  var user = new User({email:req.fields.email,password:req.fields.password,password_confirmation: req.fields.password_confirmation,username:req.fields.username});
   user.save(function(err,doc,num){
     if(err){
       console.log(String(err));
