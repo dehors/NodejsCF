@@ -60,7 +60,13 @@ router.route("/images/:id")
         });
     })
     .delete(function(req,res) {
-        
+        Image.findOneAndRemove({_id: req.params.id}, function(err){
+            if(!err){
+                res.redirect("/app/images");
+            }else{
+                res.redirect("/app/images/"+req.params.id);
+            }
+        });
     });
 
 module.exports = router;

@@ -5,4 +5,5 @@ block contenido
             &nbsp;
             a(href="/app/images/#{imagen._id}/edit") Edit
             &nbsp;
-            a(href="/app/images/#{imagen._id}/delete") Delete
+            form(action="/app/images/#{imagen._id}?_method=DELETE" method="POST")
+                input(type="submit" value="Delete")
