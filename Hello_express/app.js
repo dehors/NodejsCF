@@ -4,18 +4,23 @@ var cookieSession = require("cookie-session");
 var User = require('./model/user.js').User;
 var Image = require('./model/image.js').Image;
 var router_app = require('./router_app');
+var router_api= require('./router_api');
 var session_middleware = require("./middlewares/session");
 var formidable = require('express-formidable');
+
+var app = express();
+
+var morgan = require('morgan');
 
 var methodOverride = require("method-override");
 
 //--
-var app = express();
+app.use(morgan('dev'));
 
 app.use('/static',express.static('public'));
 
 // app.use(bodyParse.json());//para peticiones json
-// app.use(bodyParse.urlencoded({extended: true}));
+// // app.use(bodyParse.urlencoded({extended: true}));
 app.use(cookieSession({
   name: "session",
   keys: ["llave-1","llave-2"]
@@ -74,12 +79,14 @@ app.post("/session",function(req,res){
 });
 
 app.post("/users",function(req,res){
-  var user = new User({email:req.fields.email,password:req.fields.password,password_confirmation: req.fields.password_confirmation,username:req.fields.username});
+  console.log(req);
+  var user = new User({email:req.fields.email,password:req.fields.password,password_confirmation: req.fields.password_confirmation,username:req.fields.username,admin:true});
   user.save(function(err,doc,num){
     if(err){
       console.log(String(err));
       res.send('Errorer');
     }else{
+      console.log(String(doc));
       res.send('Usuario creado');
     }
   });
@@ -93,5 +100,6 @@ app.post("/users",function(req,res){
 
 app.use("/app",session_middleware);
 app.use("/app",router_app);
+app.use("/api",router_api);
 
 app.listen(3000);
